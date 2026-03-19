@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ريد لايف | RED LIFE RP</title>
+    
+    <!-- Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* ===== الألوان البنفسجية ===== */
+        :root {
+            --primary-purple: #8b5cf6;      /* بنفسجي رئيسي */
+            --primary-light: #a78bfa;        /* بنفسجي فاتح */
+            --primary-dark: #7c3aed;          /* بنفسجي غامق */
+            --primary-deep: #6d28d9;          /* بنفسجي عميق */
+            --gradient-purple: linear-gradient(135deg, #8b5cf6, #a78bfa, #c4b5fd);
+            --shadow-purple: 0 10px 25px -5px rgba(139, 92, 246, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            color: #1f2937;
+            line-height: 1.6;
+        }
+
+        /* ===== شريط التحميل ===== */
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa, #c4b5fd, #8b5cf6);
+            z-index: 9999;
+            animation: loading 2s ease-in-out infinite;
+        }
+
+        @keyframes loading {
+            0% { width: 0%; left: 0; }
+            50% { width: 100%; left: 0; }
+            100% { width: 0%; left: 100%; }
+        }
+
+        /* ===== شريط التنقل ===== */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: var(--shadow-purple);
+            border-bottom: 3px solid var(--primary-purple);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo span {
+            color: var(--primary-purple);
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(139, 92, 246, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: #374151;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary-purple);
+            transition: 0.3s;
+        }
+
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: var(--primary-purple);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-purple);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ===== الهيدر ===== */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%238b5cf6"/><circle cx="50" cy="50" r="40" fill="%23a78bfa" opacity="0.3"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px var(--primary-purple);
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary-purple);
+            color: white;
+            box-shadow: var(--shadow-purple);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-purple);
+            transform: translateY(-3px);
+        }
+
+        /* ===== الأقسام ===== */
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--primary-purple);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--gradient-purple);
+            border-radius: 2px;
+        }
+
+        .section-title i {
+            color: var(--primary-purple);
+            margin-left: 10px;
+        }
+
+        /* ===== البطاقات ===== */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15);
+            border-right: 5px solid var(--primary-purple);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.25);
+        }
+
+        .card h3 {
+            color: var(--primary-purple);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* ===== قوانين السيرفر ===== */
+        .laws-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .law-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.1);
+            transition: 0.3s;
+            border-top: 4px solid var(--primary-purple);
+        }
+
+        .law-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+        }
+
+        .law-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .law-card h3 {
+            color: var(--primary-purple);
+            margin-bottom: 1rem;
+        }
+
+        /* ===== نظام الوورنات ===== */
+        .warnings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .warning-item {
+            background: white;
+            border-radius: 15px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.1);
+            border-bottom: 3px solid var(--primary-purple);
+            transition: 0.3s;
+        }
+
+        .warning-item:hover {
+            background: var(--primary-purple);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* ===== المتجر ===== */
+        .coming-soon {
+            text-align: center;
+            padding: 4rem;
+            background: var(--gradient-purple);
+            border-radius: 30px;
+            color: white;
+            box-shadow: var(--shadow-purple);
+        }
+
+        .coming-soon i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .coming-soon h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* ===== الوظائف ===== */
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .job-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.1);
+            border: 2px solid transparent;
+            transition: 0.3s;
+        }
+
+        .job-card:hover {
+            border-color: var(--primary-purple);
+            transform: translateY(-5px);
+        }
+
+        .job-card i {
+            font-size: 3rem;
+            color: var(--primary-purple);
+            margin-bottom: 1rem;
+        }
+
+        .job-btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--primary-purple);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            margin-top: 1rem;
+            transition: 0.3s;
+            border: 2px solid var(--primary-purple);
+        }
+
+        .job-btn:hover {
+            background: transparent;
+            color: var(--primary-purple);
+        }
+
+        /* ===== أزرار التواصل ===== */
+        .footer {
+            background: #1f2937;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-purple);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: var(--primary-light);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        /* ===== زر العودة للأعلى ===== */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-purple);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-purple);
+            transition: 0.3s;
+            z-index: 999;
+        }
+
+        #backToTop.visible {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        #backToTop:hover {
+            background: var(--primary-dark);
+            transform: translateY(-5px);
+        }
+
+        /* ===== تأثيرات حركية ===== */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== للجوال ===== */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                text-align: center;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التحميل -->
+    <div class="loading-bar"></div>
+
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span> 🟣 ريد لايف</span>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#activation" class="active">التفعيل</a></li>
+                <li><a href="#laws">القوانين</a></li>
+                <li><a href="#police">الشرطة</a></li>
+                <li><a href="#store">المتجر</a></li>
+                <li><a href="#jobs">الوظائف</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- الهيدر -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>RED LIFE</h1>
+            <p>عالم الرول بلاي الأكثر تشويقاً</p>
+            <div class="hero-buttons">
+                <a href="#activation" class="btn btn-primary">ابدأ الآن</a>
+                <a href="#laws" class="btn btn-secondary">القوانين</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- قسم التفعيل -->
+    <section id="activation" class="section">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-check-circle"></i> التفعيل</h2>
+            
+            <div class="card">
+                <h3><i class="fas fa-clipboard-list"></i> الشروط العامة</h3>
+                <ul style="list-style: none; padding-right: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-circle" style="color: var(--primary-purple); font-size: 0.5rem; margin-left: 0.5rem;"></i> العمر المسموح: 13 سنة فما فوق</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-circle" style="color: var(--primary-purple); font-size: 0.5rem; margin-left: 0.5rem;"></i> ممنوع استخدام شخصيات افتراضية إلا من المتجر</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-circle" style="color: var(--primary-purple); font-size: 0.5rem; margin-left: 0.5rem;"></i> ممنوع كتابة الأسماء بالإنجليزية أو رموز</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-circle" style="color: var(--primary-purple); font-size: 0.5rem; margin-left: 0.5rem;"></i> يمنع الدخول من أجهزة غير جهازك</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-circle" style="color: var(--primary-purple); font-size: 0.5rem; margin-left: 0.5rem;"></i> يحق لك امتلاك شخصيتين فقط</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم القوانين -->
+    <section id="laws" class="section" style="background: #f9f9ff;">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-gavel"></i> قوانين السيرفر</h2>
+            
+            <div class="laws-grid">
+                <div class="law-card">
+                    <div class="law-icon"><i class="fas fa-heartbeat"></i></div>
+                    <h3>NLR - قوانين الحياة الجديدة</h3>
+                    <p>في حال إغمائك لا يمكنك الكلام أو الحركة. عند إنعاشك من مسعف تتذكر كل شيء. عند إعطائك إبرة من عدو لا تتذكر شيء.</p>
+                </div>
+                
+                <div class="law-card">
+                    <div class="law-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>PowerGaming - الباور جيمنج</h3>
+                    <p>استخدام وسائل غير موجودة باللعبة للحصول على ميزة أو التصرف بطريقة غير واقعية ممنوع.</p>
+                </div>
+                
+                <div class="law-card">
+                    <div class="law-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>NVL - الخوف على الحياة</h3>
+                    <p>عدم الخوف بشكل واقعي عند التهديد بالسلاح يعتبر مخالفة. الخوف على الحياة أساسي.</p>
+                </div>
+                
+                <div class="law-card">
+                    <div class="law-icon"><i class="fas fa-gamepad"></i></div>
+                    <h3>Metagaming - الميتا جيمنج</h3>
+                    <p>استخدام معلومات من خارج اللعبة (بث، دسكورد، يوتيوب) داخل اللعبة ممنوع.</p>
+                </div>
+                
+                <div class="law-card">
+                    <div class="law-icon"><i class="fas fa-skull"></i></div>
+                    <h3>RDM - القتل العشوائي</h3>
+                    <p>قتل الأشخاص دون سبب أو تهديد أو عداوة ممنوع تماماً.</p>
+                </div>
+                
+                <div class="law-card">
+                    <div class="law-icon"><i class="fas fa-balance-scale"></i></div>
+                    <h3>قانون تقدير الحياة</h3>
+                    <p>الحفاظ على حياتك وحياة الآخرين، عدم التهور، التفاوض قبل الهجوم.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- نظام الوورنات -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-exclamation-triangle"></i> نظام الوورنات</h2>
+            
+            <div class="warnings-grid">
+                <div class="warning-item">1 وارن ➜ بدون إجراء</div>
+                <div class="warning-item">2 وارن ➜ باند 12 ساعة</div>
+                <div class="warning-item">3 وارن ➜ بدون إجراء</div>
+                <div class="warning-item">4 وارن ➜ باند 24 ساعة</div>
+                <div class="warning-item">5 وارن ➜ بدون إجراء</div>
+                <div class="warning-item">6 وارن ➜ باند 3 أيام</div>
+                <div class="warning-item">7 وارن ➜ بدون إجراء</div>
+                <div class="warning-item">8 وارن ➜ باند 7 أيام</div>
+                <div class="warning-item">9 وارن ➜ بدون إجراء</div>
+                <div class="warning-item">10 وارن ➜ باند 10 أيام</div>
+                <div class="warning-item">11 وارن ➜ بدون إجراء</div>
+                <div class="warning-item">12 وارن ➜ باند أسبوعين</div>
+                <div class="warning-item">13 وارن ➜ بدون إجراء</div>
+                <div class="warning-item">14 وارن ➜ باند 3 أسابيع</div>
+                <div class="warning-item">15 وارن ➜ باند 3 أشهر أو نهائي</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قوانين الشرطة -->
+    <section id="police" class="section" style="background: #f9f9ff;">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-user-shield"></i> قوانين الشرطة</h2>
+            
+            <div class="card">
+                <h3>إيقاف الخدمات والمداهمات</h3>
+                <ul style="padding-right: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;">يتم إيقاف الخدمات فقط بحكم من المحكمة</li>
+                    <li style="margin-bottom: 0.5rem;">المداهمات تحتاج أمر تنفيذ من المحكمة</li>
+                    <li style="margin-bottom: 0.5rem;">عدم إخراج السلاح إلا بعد إخراج المجرم لسلاحه</li>
+                    <li style="margin-bottom: 0.5rem;">استخدام نفس فئة أسلحة المجرم</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <h3>سلوك رجل الأمن</h3>
+                <p>يجب أن يكون رجل الأمن مهذباً، متحكماً بأعصابه، يحترم كرامة الإنسان، ويطبق القانون بعدل. الخيانة تعتبر انهياراً خطيراً قد يؤدي للإعدام.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- المتجر -->
+    <section id="store" class="section">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-store"></i> المتجر</h2>
+            <div class="coming-soon">
+                <i class="fas fa-clock"></i>
+                <h3>قريباً</h3>
+                <p>نحن نجهز لكم تجربة تسوق مميزة</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- الوظائف -->
+    <section id="jobs" class="section" style="background: #f9f9ff;">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-briefcase"></i> الوظائف</h2>
+            
+            <div class="jobs-grid">
+                <div class="job-card">
+                    <i class="fas fa-police-box"></i>
+                    <h3>الشرطة</h3>
+                    <p>انضم لقوى الأمن</p>
+                    <a href="#" class="job-btn">تقديم</a>
+                </div>
+                <div class="job-card">
+                    <i class="fas fa-ambulance"></i>
+                    <h3>الصحة</h3>
+                    <p>انضم للإسعاف</p>
+                    <a href="#" class="job-btn">تقديم</a>
+                </div>
+                <div class="job-card">
+                    <i class="fas fa-gavel"></i>
+                    <h3>وزارة العدل</h3>
+                    <p>انضم للقضاء</p>
+                    <a href="#" class="job-btn">تقديم</a>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 2rem; color: var(--primary-purple); font-weight: bold;">
+                <i class="fas fa-lock"></i> التقديمات مغلقة حالياً
+            </p>
+        </div>
+    </section>
+
+    <!-- الفوتر مع أزرار التواصل -->
+    <footer class="footer">
+        <div class="container">
+            <div class="social-links">
+                <a href="https://discord.gg/RuuQj7yqGm" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://www.tiktok.com/@red_.life" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <p style="text-align: center;">© 2026 ريد لايف - جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
+    <!-- زر العودة للأعلى -->
+    <button id="backToTop" title="العودة للأعلى">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- السكربتات (الحركة) -->
+    <script>
+        // زر العودة للأعلى
+        const backToTop = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // قائمة الجوال
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // إغلاق القائمة عند النقر على رابط
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // تفعيل الرابط النشط عند التمرير
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-menu a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // إخفاء شريط التحميل بعد تحميل الصفحة
+        window.addEventListener('load', () => {
+            document.querySelector('.loading-bar').style.opacity = '0';
+            setTimeout(() => {
+                document.querySelector('.loading-bar').style.display = 'none';
+            }, 500);
+        });
+    </script>
+
+</body>
+</html>
